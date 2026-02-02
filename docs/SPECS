@@ -1,0 +1,423 @@
+Got it. Below is a **single, authoritative SPECS DOCUMENT** — not BRD, not PRD, not SOW — but the **source-of-truth specification** that engineering, QA, ops, and reviewers all align on.
+
+This document **defines exactly what is built and how it behaves**.
+No visuals. No colors. No mockups. Rules > opinions.
+
+---
+
+# SYSTEM SPECIFICATION DOCUMENT (SPECS)
+
+## Livelihood Security Platform — Desktop Admin Application (POC)
+
+---
+
+## 1. Document Purpose
+
+This document specifies the **functional, behavioral, architectural, and operational specifications** for the **Desktop Admin Application (Electron)** used to run a livelihood income-stabilization pilot.
+
+This is the **highest-authority implementation document** for the POC.
+
+If something is not in this document, it is **not required**.
+
+---
+
+## 2. System Scope
+
+### In Scope
+
+* Desktop Admin App (Electron)
+* Backend APIs
+* Income Guarantee logic
+* Payment execution
+* Immutable work ledger
+* Offline-tolerant ops
+
+### Out of Scope
+
+* Worker-facing apps
+* UI branding or aesthetics
+* Insurance / credit systems
+* Production scalability
+* Mobile or web clients
+
+---
+
+## 3. Operating Reality (Hard Constraints)
+
+### User Reality
+
+* Power users only
+* Long sessions (multi-hour)
+* High data density
+* Low tolerance for ambiguity
+* Explicit control preferred over automation
+
+### System Reality
+
+* Unreliable network
+* Manual overrides required
+* Auditability mandatory
+* Partial automation acceptable
+
+---
+
+## 4. Global Design Rules (Enforced)
+
+1. Predictability > beauty
+2. Explicit actions only
+3. No hidden state
+4. One screen = one responsibility
+5. Append-only financial records
+6. Manual override always possible
+7. Fail visibly, never silently
+
+---
+
+## 5. Layout & Interaction Specifications
+
+### Layout
+
+| Rule      | Spec             |
+| --------- | ---------------- |
+| Grid      | 12-column        |
+| Base unit | 8px              |
+| Max width | 1600px           |
+| Sidebar   | Fixed, 240–280px |
+| Top bar   | Sticky           |
+
+### Interaction
+
+* Keyboard usable for all primary actions
+* Explicit save / submit actions only
+* Confirmation required for destructive actions
+* No animation conveys meaning
+
+🚫 Never:
+
+* Centered layouts
+* Auto-save
+* Hidden confirmations
+* Playful motion
+
+---
+
+## 6. Navigation & Information Architecture
+
+### Primary Modules (L1)
+
+| Module           | Responsibility               |
+| ---------------- | ---------------------------- |
+| Dashboard        | System overview (read-only)  |
+| Workers          | Worker registry              |
+| Jobs             | Work definition & assignment |
+| Income Guarantee | Rule configuration           |
+| Payments         | Execution & reconciliation   |
+| Work History     | Immutable ledger             |
+| Reports          | Export & compliance          |
+| Settings         | System configuration         |
+
+Navigation depth **must not exceed 2 levels**.
+
+---
+
+## 7. Core Functional Specifications
+
+### 7.1 Worker Management
+
+* Create worker
+* Edit worker attributes
+* Activate / deactivate worker
+* View work summary
+
+**Rules**
+
+* No deletion
+* No document dependency
+* Deactivated workers retain history
+
+---
+
+### 7.2 Job Management
+
+* Create job with:
+
+  * Skill
+  * Rate
+  * Date
+  * Minimum guarantee
+* Assign workers
+* Explicitly close job
+
+**Rules**
+
+* Jobs editable until closed
+* Closed jobs immutable
+* No silent reassignment
+
+---
+
+### 7.3 Income Guarantee Engine
+
+* Define minimum income rules:
+
+  * Daily or weekly
+  * Global or job-level
+* Calculate earnings vs guarantee
+* Compute deterministic top-ups
+
+**Rules**
+
+* Rules apply forward-only
+* Calculations logged
+* No retroactive changes
+
+---
+
+### 7.4 Payments
+
+* Review payable workers
+* Trigger single or batch payouts
+* Retry failed payments
+* View transaction references
+
+**Rules**
+
+* Payments immutable once triggered
+* Manual retry required
+* Partial failures surfaced explicitly
+
+---
+
+### 7.5 Work History (Ledger)
+
+* Auto-generated from jobs + payments
+* Append-only
+* Read-only views
+
+**Rules**
+
+* No edits
+* No deletions
+* Source of truth for audits
+
+---
+
+### 7.6 Reports
+
+* Daily summary
+* Worker earnings
+* Top-up usage
+* CSV export
+
+**Rules**
+
+* Reports are derived views
+* No direct edits
+
+---
+
+## 8. Behavioral Specifications
+
+### Entity Mutability
+
+| Entity         | Editable | Lock Condition |
+| -------------- | -------- | -------------- |
+| Worker         | Yes      | Never          |
+| Job            | Yes      | On close       |
+| Guarantee Rule | Yes      | Future only    |
+| Payment        | No       | Immediate      |
+| Ledger Entry   | No       | Always         |
+
+---
+
+### Action Outcomes
+
+Every state-changing action must return one of:
+
+* `success`
+* `partial_success`
+* `failed`
+* `requires_manual_review`
+
+---
+
+## 9. Offline & Failure Behavior
+
+### Offline Mode
+
+* Read-only UI
+* Cached edits allowed (non-financial)
+* Payment actions disabled
+* Manual sync on reconnect
+
+### Failure Categories
+
+* Validation failure
+* Network failure
+* Payment provider failure
+* Data conflict
+
+Failures must be **visible and actionable**.
+
+---
+
+## 10. Technical Architecture Specification
+
+### Desktop Layer
+
+* Electron
+* React (functional components)
+* Local SQLite cache
+* Keyboard shortcut engine
+
+### Backend Layer
+
+* REST APIs
+* Stateless services
+* JWT authentication
+* Business rule engine
+* Audit logger
+
+---
+
+## 11. Core Data Models (Authoritative)
+
+### Worker
+
+```
+id: string
+name: string
+phone: string
+skill: enum
+location: string
+status: active | inactive
+created_at: datetime
+```
+
+### Job
+
+```
+id: string
+skill_required: enum
+rate: number
+min_guarantee: number
+date: date
+status: open | active | closed
+```
+
+### Guarantee Rule
+
+```
+id: string
+scope: global | job
+frequency: daily | weekly
+min_amount: number
+funding_source: string
+```
+
+### Payment
+
+```
+id: string
+worker_id: string
+earned: number
+top_up: number
+total: number
+status: success | failed
+transaction_id: string
+```
+
+### Ledger Entry (Immutable)
+
+```
+id: string
+worker_id: string
+job_id: string
+amount: number
+source: earned | topup
+timestamp: datetime
+```
+
+---
+
+## 12. API Specifications (POC)
+
+### Auth
+
+**POST** `/auth/login`
+
+### Workers
+
+**POST** `/workers`
+**GET** `/workers`
+
+### Jobs
+
+**POST** `/jobs`
+**POST** `/jobs/{id}/assign`
+**POST** `/jobs/{id}/close`
+
+### Guarantee
+
+**POST** `/guarantee/calculate`
+
+### Payments
+
+**POST** `/payments/trigger`
+
+### Ledger
+
+**GET** `/workers/{id}/ledger`
+
+---
+
+## 13. Non-Functional Specifications
+
+| Category       | Spec               |
+| -------------- | ------------------ |
+| UI latency     | <300ms             |
+| Data integrity | Strong             |
+| Auditability   | Mandatory          |
+| Access control | Role-based         |
+| Scale          | ~1,000 workers/org |
+| Accessibility  | Keyboard-first     |
+
+---
+
+## 14. Acceptance Conditions (System-Level)
+
+The system is considered compliant with this spec if:
+
+1. Full lifecycle can be executed end-to-end
+2. Income guarantees are enforced deterministically
+3. Payments are immutable and traceable
+4. Ledger cannot be altered
+5. Offline behavior does not corrupt data
+6. No hidden state exists
+
+---
+
+## 15. Relationship to Other Docs
+
+| Document     | Role                  |
+| ------------ | --------------------- |
+| BRD          | Business intent       |
+| PRD          | Product behavior      |
+| SPECS (this) | System truth          |
+| SOW          | Contractual execution |
+
+---
+
+## FINAL STOP ⛔
+
+This is the **complete SPECS DOC**.
+
+If you want to go deeper, the *only* valid next layers are:
+
+* Screen-level **IA tables**
+* **State machine diagrams**
+* **Acceptance test cases**
+* **Engineering task breakdown**
+* **QA checklist**
+
+Tell me which one to produce next.

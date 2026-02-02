@@ -1,0 +1,273 @@
+ Below is a **proper, enterprise-grade BRD (Business Requirements Document)** that is **cleanly aligned** with your **PRD + Technical POC spec**, written in a way that **governments, NGOs, enterprises, and internal leadership** all understand and sign off on.
+
+This is **not a product doc** and **not technical** — it defines **why, who, and what success means**.
+
+---
+
+# BUSINESS REQUIREMENTS DOCUMENT (BRD)
+
+## Livelihood Security Platform — Desktop Admin System (POC)
+
+---
+
+## 1. Document Control
+
+| Item          | Value                                |
+| ------------- | ------------------------------------ |
+| Document Type | Business Requirements Document       |
+| Product       | Livelihood Security Platform         |
+| Scope         | Desktop Admin / Internal Tools       |
+| Phase         | Proof of Concept                     |
+| Audience      | Business, Ops, Govt, NGO, Leadership |
+| Owner         | Program / Product                    |
+
+---
+
+## 2. Executive Summary
+
+A large portion of livelihood programs fail due to **operational complexity, income volatility, payment delays, and lack of trust**. Existing tools are fragmented, manual, and non-auditable.
+
+This BRD defines the **business requirements** for a **desktop-first administrative system** that enables institutions to **stabilize income**, **execute payments reliably**, and **maintain auditable work histories** for informal workers.
+
+The POC focuses on **operational proof**, not scale or automation.
+
+---
+
+## 3. Business Objective
+
+### Primary Objective
+
+Enable institutions to **guarantee minimum income** to informal workers through a **predictable, auditable operational system**.
+
+### Secondary Objectives
+
+* Reduce payment delays and errors
+* Improve trust between workers and institutions
+* Provide visibility into income stabilization costs
+* Create a foundation for future insurance and credit programs
+
+---
+
+## 4. Business Problem Statement
+
+### Current State (As-Is)
+
+| Problem                  | Impact              |
+| ------------------------ | ------------------- |
+| Manual worker management | Errors, delays      |
+| Fragmented job records   | No reliable history |
+| Ad-hoc income top-ups    | Leakage, disputes   |
+| Delayed payments         | Loss of trust       |
+| No audit trail           | Compliance risk     |
+
+---
+
+### Desired State (To-Be)
+
+| Capability                 | Outcome        |
+| -------------------------- | -------------- |
+| Central worker registry    | Visibility     |
+| Structured job management  | Predictability |
+| Enforced income guarantees | Stability      |
+| Deterministic payments     | Trust          |
+| Immutable ledger           | Auditability   |
+
+---
+
+## 5. Stakeholders
+
+### Primary Stakeholders
+
+| Stakeholder          | Interest             |
+| -------------------- | -------------------- |
+| NGO / Govt Ops Teams | Execution efficiency |
+| Program Managers     | Cost control         |
+| Finance Teams        | Payment accuracy     |
+| Auditors             | Compliance           |
+| Leadership           | Program scalability  |
+
+### Secondary Stakeholders
+
+* Workers (indirect beneficiaries)
+* Payment providers
+* Field partners
+
+---
+
+## 6. In-Scope Business Capabilities (POC)
+
+| Capability                   | Description                        |
+| ---------------------------- | ---------------------------------- |
+| Worker Registry              | Centralized worker records         |
+| Job Management               | Define and assign work             |
+| Income Guarantee Enforcement | Apply minimum income rules         |
+| Payment Execution            | Trigger and track payouts          |
+| Work History Ledger          | Immutable records                  |
+| Reporting                    | Operational & financial visibility |
+
+---
+
+## 7. Out-of-Scope (Explicit)
+
+| Capability           | Reason               |
+| -------------------- | -------------------- |
+| Worker mobile apps   | Phase 2              |
+| Insurance automation | Future               |
+| Credit underwriting  | Future               |
+| AI optimization      | Not required         |
+| Branding & UI polish | Not relevant for POC |
+
+---
+
+## 8. Business Requirements
+
+### BR-01 Worker Management
+
+The system must allow ops teams to **create, update, activate, and deactivate workers** without document dependency.
+
+---
+
+### BR-02 Job Management
+
+The system must allow ops teams to **define work units**, assign workers, and **explicitly close jobs**.
+
+---
+
+### BR-03 Income Guarantee
+
+The system must enforce **minimum income guarantees** and transparently calculate top-ups when earnings fall below thresholds.
+
+---
+
+### BR-04 Payment Execution
+
+The system must enable **same-day or scheduled payments**, track transaction status, and surface failures.
+
+---
+
+### BR-05 Work History & Audit
+
+The system must maintain an **immutable, append-only ledger** of work and payments.
+
+---
+
+### BR-06 Reporting
+
+The system must provide **exportable reports** for operational review and compliance.
+
+---
+
+## 9. Business Rules
+
+| Rule               | Description                                  |
+| ------------------ | -------------------------------------------- |
+| Explicit actions   | No silent automation                         |
+| Immutability       | Payments and ledger entries cannot be edited |
+| Forward-only rules | Income rules apply only to future work       |
+| Accountability     | All actions logged                           |
+| Manual override    | Allowed but auditable                        |
+
+---
+
+## 10. Assumptions
+
+* Institutions fund income guarantees
+* Ops teams are trained power users
+* Desktop usage is acceptable
+* Manual processes are acceptable in POC
+* Worker trust depends on payment speed
+
+---
+
+## 11. Constraints
+
+| Constraint            | Impact                     |
+| --------------------- | -------------------------- |
+| Network unreliability | Offline tolerance required |
+| Limited tech literacy | Predictable UI             |
+| Regulatory scrutiny   | Strong audit               |
+| Pilot budgets         | Lean scope                 |
+
+---
+
+## 12. Risks & Mitigation
+
+| Risk               | Mitigation             |
+| ------------------ | ---------------------- |
+| Payment failures   | Manual retries         |
+| Ops errors         | Explicit confirmations |
+| Data inconsistency | Immutable ledger       |
+| Low adoption       | Income guarantee hook  |
+
+---
+
+## 13. Success Criteria (Business)
+
+### Operational
+
+* Full job-to-payment cycle completed without external tools
+* Zero unexplained payment discrepancies
+
+### Financial
+
+* Clear visibility into top-up costs
+* Predictable payout schedules
+
+### Trust
+
+* Workers accept repeat jobs
+* Institutions approve continuation
+
+---
+
+## 14. Compliance & Audit Requirements
+
+* All state-changing actions logged
+* Immutable financial records
+* Exportable audit trails
+* Role-based access
+
+---
+
+## 15. Approval Matrix
+
+| Role            | Approval |
+| --------------- | -------- |
+| Program Owner   | ⬜        |
+| Operations Lead | ⬜        |
+| Finance         | ⬜        |
+| Technology      | ⬜        |
+| Compliance      | ⬜        |
+
+---
+
+## 16. Relationship to Other Documents
+
+| Document   | Purpose          |
+| ---------- | ---------------- |
+| BRD        | Why & What       |
+| PRD        | Product behavior |
+| Tech Specs | How              |
+| POC Plan   | Validation       |
+
+---
+
+## FINAL NOTE
+
+This BRD:
+
+* Is **sign-off ready**
+* Aligns with **institutional expectations**
+* Cleanly separates business from product & tech
+* De-risks the POC politically and operationally
+
+---
+
+If you want, next logical steps are:
+
+* **BRD → PRD traceability matrix**
+* **Govt / NGO proposal version**
+* **Funding justification memo**
+* **Impact measurement framework**
+
+Say the next one.

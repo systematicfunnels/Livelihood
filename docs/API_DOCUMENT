@@ -1,0 +1,427 @@
+Perfect. Below is a **single, authoritative API DOCUMENT** that covers **backend APIs + frontend contracts + dataflow + navigation mapping**.
+
+This is written as a **handoff spec** for:
+
+* Frontend (Electron/React)
+* Backend (API + services)
+* QA
+* Integration partners
+
+No UI mockups. No colors. No ambiguity.
+
+---
+
+# API DOCUMENT
+
+## Livelihood Security Platform — Desktop Admin App (POC)
+
+---
+
+## 1. Purpose of This Document
+
+This document defines:
+
+1. **Backend API contracts** (request/response)
+2. **Frontend ↔ Backend dataflow contracts**
+3. **State ownership rules**
+4. **Navigation → API mapping**
+5. **Error & failure semantics**
+
+If a frontend screen or backend service is not mapped here, it **does not exist** for the POC.
+
+---
+
+## 2. System Architecture (Contract View)
+
+### Logical Layers
+
+```
+Electron UI (React)
+  ↕ API Client (Typed)
+Backend REST APIs
+  ↕ Business Rule Engine
+Persistence Layer
+```
+
+### Ownership Rules
+
+| Concern                | Owner    |
+| ---------------------- | -------- |
+| UI state               | Frontend |
+| Business rules         | Backend  |
+| Financial calculations | Backend  |
+| Ledger integrity       | Backend  |
+| Navigation             | Frontend |
+| Validation (final)     | Backend  |
+
+Frontend **never** calculates money.
+
+---
+
+## 3. Authentication & Session Contract
+
+### POST `/auth/login`
+
+**Request**
+
+```json
+{
+  "email": "ops@org.org",
+  "otp": "123456"
+}
+```
+
+**Response**
+
+```json
+{
+  "token": "jwt-token",
+  "role": "admin",
+  "org_id": "org_001",
+  "expires_at": "2026-02-02T18:00:00Z"
+}
+```
+
+### Frontend Contract
+
+* Token stored in memory (not localStorage)
+* Injected into all API headers
+* On expiry → force logout
+
+---
+
+## 4. Core API Domains
+
+### Domain List
+
+| Domain    | Responsibility    |
+| --------- | ----------------- |
+| Auth      | Session & roles   |
+| Workers   | Registry          |
+| Jobs      | Work units        |
+| Guarantee | Income rules      |
+| Payments  | Execution         |
+| Ledger    | Immutable history |
+| Reports   | Derived views     |
+
+---
+
+## 5. Workers API (Frontend ↔ Backend)
+
+### GET `/workers`
+
+**Response**
+
+```json
+[
+  {
+    "id": "w_101",
+    "name": "Raju",
+    "phone": "98XXXXXX",
+    "skill": "mason",
+    "location": "Zone A",
+    "status": "active",
+    "jobs_completed": 12
+  }
+]
+```
+
+### POST `/workers`
+
+**Request**
+
+```json
+{
+  "name": "Raju",
+  "phone": "98XXXXXX",
+  "skill": "mason",
+  "location": "Zone A"
+}
+```
+
+### Dataflow
+
+```
+Workers List Screen
+ → GET /workers
+Add Worker Action
+ → POST /workers
+ → Refresh GET /workers
+```
+
+---
+
+## 6. Jobs API
+
+### POST `/jobs`
+
+```json
+{
+  "skill_required": "farm",
+  "rate": 450,
+  "min_guarantee": 400,
+  "date": "2026-02-02"
+}
+```
+
+### POST `/jobs/{jobId}/assign`
+
+```json
+{
+  "worker_ids": ["w_101", "w_102"]
+}
+```
+
+### POST `/jobs/{jobId}/close`
+
+(empty body)
+
+### Dataflow
+
+```
+Jobs List
+ → GET /jobs
+Create Job
+ → POST /jobs
+Assign Workers
+ → POST /jobs/{id}/assign
+Close Job
+ → POST /jobs/{id}/close
+```
+
+---
+
+## 7. Income Guarantee API
+
+### POST `/guarantee/calculate`
+
+**Request**
+
+```json
+{
+  "worker_id": "w_101",
+  "earned_amount": 320,
+  "job_id": "j_55"
+}
+```
+
+**Response**
+
+```json
+{
+  "guarantee_amount": 400,
+  "top_up": 80,
+  "rule_id": "g_12",
+  "decision": "applied"
+}
+```
+
+### Rules
+
+* Frontend displays result
+* Backend stores decision
+* Frontend cannot override values
+
+---
+
+## 8. Payments API
+
+### GET `/payments/pending`
+
+```json
+[
+  {
+    "worker_id": "w_101",
+    "earned": 320,
+    "top_up": 80,
+    "total": 400,
+    "status": "pending"
+  }
+]
+```
+
+### POST `/payments/trigger`
+
+```json
+{
+  "payments": [
+    {
+      "worker_id": "w_101",
+      "amount": 400,
+      "source": "pilot_fund"
+    }
+  ]
+}
+```
+
+**Response**
+
+```json
+{
+  "batch_id": "batch_901",
+  "status": "partial_success"
+}
+```
+
+### Dataflow
+
+```
+Payments Screen Load
+ → GET /payments/pending
+Trigger Payout
+ → POST /payments/trigger
+ → Backend creates ledger entries
+ → Refresh payments
+```
+
+---
+
+## 9. Ledger API (Immutable)
+
+### GET `/workers/{workerId}/ledger`
+
+```json
+{
+  "worker_id": "w_101",
+  "entries": [
+    {
+      "id": "l_1",
+      "job_id": "j_55",
+      "amount": 320,
+      "source": "earned",
+      "timestamp": "2026-02-02T10:00:00Z"
+    },
+    {
+      "id": "l_2",
+      "job_id": "j_55",
+      "amount": 80,
+      "source": "topup",
+      "timestamp": "2026-02-02T10:01:00Z"
+    }
+  ]
+}
+```
+
+### Rule
+
+* Read-only
+* No delete
+* No update
+
+---
+
+## 10. Reports API
+
+### GET `/reports/daily-summary?date=2026-02-02`
+
+```json
+{
+  "date": "2026-02-02",
+  "workers_paid": 82,
+  "total_paid": 32400,
+  "total_top_up": 4800
+}
+```
+
+---
+
+## 11. Error Contract (Global)
+
+### Error Response Format
+
+```json
+{
+  "error_code": "PAYMENT_PROVIDER_FAILURE",
+  "message": "Payment gateway timeout",
+  "action_required": "retry_manual"
+}
+```
+
+### Error Categories
+
+| Code                    | Meaning         | UI Action  |
+| ----------------------- | --------------- | ---------- |
+| VALIDATION_ERROR        | Bad input       | Inline fix |
+| AUTH_ERROR              | Session invalid | Logout     |
+| BUSINESS_RULE_VIOLATION | Rule breach     | Block      |
+| PROVIDER_FAILURE        | External        | Retry      |
+| SYSTEM_ERROR            | Unknown         | Escalate   |
+
+---
+
+## 12. Frontend ↔ Backend State Contract
+
+| State          | Owner    |
+| -------------- | -------- |
+| UI filters     | Frontend |
+| Calculations   | Backend  |
+| Payment status | Backend  |
+| Ledger         | Backend  |
+| Navigation     | Frontend |
+
+---
+
+## 13. Navigation → API Mapping (Authoritative)
+
+| Screen           | APIs Called                                   |
+| ---------------- | --------------------------------------------- |
+| Dashboard        | `/reports/daily-summary`, `/payments/pending` |
+| Workers List     | `/workers`                                    |
+| Worker Profile   | `/workers`, `/workers/{id}/ledger`            |
+| Jobs List        | `/jobs`                                       |
+| Job Detail       | `/jobs/{id}`, `/jobs/{id}/assign`             |
+| Income Guarantee | `/guarantee/*`                                |
+| Payments         | `/payments/pending`, `/payments/trigger`      |
+| Ledger           | `/workers/{id}/ledger`                        |
+| Reports          | `/reports/*`                                  |
+
+---
+
+## 14. Frontend Dataflow (Typical Example)
+
+### Trigger Payment Flow
+
+```
+User clicks "Trigger Payout"
+ → Frontend validates selection
+ → POST /payments/trigger
+ → Backend executes & logs
+ → Response returned
+ → Frontend refreshes pending list
+ → Ledger auto-updated
+```
+
+No frontend state mutation without backend confirmation.
+
+---
+
+## 15. Non-Negotiable API Rules
+
+1. No frontend-calculated money
+2. No silent success
+3. No partial writes without response
+4. Ledger is append-only
+5. All financial APIs are POST
+6. Idempotency required for payments
+
+---
+
+## FINAL CHECKPOINT ⛔
+
+Confirm **YES / CHANGE** on:
+
+1. API surface completeness
+2. Frontend/backend responsibility split
+3. Error contract
+4. Navigation → API mapping
+5. Payment idempotency assumptions
+
+Next valid layers (only after approval):
+
+* **State machine diagrams**
+* **Idempotency & retry spec**
+* **Acceptance test cases**
+* **QA checklist**
+* **Security & audit spec**
+
+Waiting for your confirmation.

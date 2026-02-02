@@ -1,0 +1,368 @@
+Alright. Below is a **clean, execution-grade PRD** that aligns **perfectly** with the **technical POC spec**, your **desktop-admin reality**, and your **design rules**.
+
+This PRD is written so that:
+
+* Product, design, and engineering read the **same truth**
+* No UI guesswork
+* No scope creep
+* No premature polish
+
+---
+
+# PRODUCT REQUIREMENTS DOCUMENT (PRD)
+
+## Livelihood Security Platform — Desktop Admin App (POC)
+
+---
+
+## 1. Product Overview
+
+### Product Name
+
+**Livelihood Security Platform — Admin Console**
+
+### Product Type
+
+Desktop application (Electron)
+
+### Target Users
+
+Internal / institutional **power users**:
+
+* NGO operations staff
+* Government pilot teams
+* Enterprise workforce managers
+
+### Product Stage
+
+Proof of Concept (POC)
+
+---
+
+## 2. Problem Statement
+
+Informal livelihood programs fail operationally because:
+
+* Income guarantees are hard to enforce manually
+* Payments are error-prone and slow
+* Worker records are fragmented
+* Ops teams lack a single control surface
+* Auditable history does not exist
+
+**Result:** Low trust, leakage, and non-scalable pilots.
+
+---
+
+## 3. Product Goal
+
+Provide a **single, predictable, auditable desktop system** that enables ops teams to:
+
+1. Manage workers
+2. Create and assign jobs
+3. Enforce minimum income guarantees
+4. Execute and reconcile payments
+5. Maintain immutable work history
+
+> Success = ops can run a full livelihood cycle **without confusion or external tools**.
+
+---
+
+## 4. Non-Goals (Explicit)
+
+This product will **not**:
+
+* Serve workers directly
+* Optimize for visual delight
+* Replace field operations
+* Automate insurance or credit
+* Act as a public SaaS product
+
+---
+
+## 5. User Personas
+
+### Persona 1 — Operations Manager
+
+* Runs daily programs
+* Responsible for payouts
+* Needs predictability and control
+* Low tolerance for surprises
+
+### Persona 2 — Program Admin
+
+* Configures rules and policies
+* Reviews reports
+* Needs auditability and exports
+
+### Persona 3 — Viewer / Auditor
+
+* Reviews data
+* Cannot mutate state
+* Needs clarity and trust
+
+---
+
+## 6. Key Use Cases
+
+1. Onboard and manage workers
+2. Create and manage jobs
+3. Apply income guarantees
+4. Trigger and track payments
+5. Review immutable work history
+6. Export compliance reports
+
+---
+
+## 7. Product Principles (Hard)
+
+1. Predictability > beauty
+2. Explicit actions > automation
+3. Density with clarity
+4. No hidden state
+5. One screen = one responsibility
+
+---
+
+## 8. Functional Scope (POC)
+
+### Included
+
+| Module                 | Included |
+| ---------------------- | -------- |
+| Dashboard              | Yes      |
+| Worker registry        | Yes      |
+| Job management         | Yes      |
+| Income guarantee rules | Yes      |
+| Payments               | Yes      |
+| Work history ledger    | Yes      |
+| Reports                | Yes      |
+
+### Excluded
+
+| Feature              | Reason             |
+| -------------------- | ------------------ |
+| Worker mobile UI     | Out of scope       |
+| Insurance automation | Phase 2            |
+| Credit scoring       | Phase 3            |
+| Advanced analytics   | Not needed for POC |
+
+---
+
+## 9. Functional Requirements
+
+### 9.1 Dashboard
+
+* Show system health
+* Surface exceptions (failed payments, top-ups)
+* No editing actions
+
+---
+
+### 9.2 Workers
+
+* Create/edit worker profiles
+* Assign skills and locations
+* Activate/deactivate workers
+* View work summary
+
+**Constraints**
+
+* No document dependency
+* No deletion (only deactivation)
+
+---
+
+### 9.3 Jobs
+
+* Create jobs with rates and requirements
+* Assign workers
+* Track status
+* Close jobs explicitly
+
+**Constraints**
+
+* Jobs immutable after closure
+* No silent reassignment
+
+---
+
+### 9.4 Income Guarantee
+
+* Define minimum income rules
+* Apply at job or global level
+* Calculate top-ups deterministically
+
+**Constraints**
+
+* Rules apply forward only
+* All applications logged
+
+---
+
+### 9.5 Payments
+
+* Review payable workers
+* Trigger batch payouts
+* Retry failures
+* View transaction references
+
+**Constraints**
+
+* Payments immutable
+* Manual override required for retries
+
+---
+
+### 9.6 Work History (Ledger)
+
+* Auto-generated
+* Immutable
+* Per worker and per job views
+
+**Constraints**
+
+* No edits
+* No deletions
+* Append-only
+
+---
+
+### 9.7 Reports
+
+* Daily summaries
+* Worker earnings
+* Top-up usage
+* Export (CSV)
+
+---
+
+## 10. User Flows (High Level)
+
+### Worker Flow
+
+Create → Assign → Work → Paid → Logged
+
+### Job Flow
+
+Create → Assign → Complete → Pay → Lock
+
+### Payment Flow
+
+Calculate → Review → Execute → Reconcile → Lock
+
+---
+
+## 11. UX & Interaction Requirements
+
+### Layout
+
+* Fixed sidebar
+* Sticky top bar
+* 12-column grid
+* High data density
+
+### Interaction
+
+* Keyboard usable
+* Explicit save actions
+* Inline validation
+* Confirmation on destructive actions
+
+### Prohibited
+
+* Centered layouts
+* Hidden saves
+* Playful animations
+* Auto-advancing flows
+
+---
+
+## 12. Non-Functional Requirements
+
+| Category       | Requirement        |
+| -------------- | ------------------ |
+| Performance    | <300ms UI response |
+| Availability   | Offline read-only  |
+| Data integrity | Strong             |
+| Audit          | Mandatory          |
+| Scalability    | 1k workers/org     |
+| Accessibility  | Keyboard first     |
+
+---
+
+## 13. Dependencies & Assumptions
+
+### Dependencies
+
+* Payment rail availability
+* Backend REST APIs
+* Field ops for worker onboarding
+
+### Assumptions
+
+* Ops teams accept dense UIs
+* Income guarantee is funded externally
+* Manual ops are acceptable in POC
+
+---
+
+## 14. Success Metrics (POC)
+
+### Product
+
+* Full cycle executed without confusion
+* Zero ambiguous states
+* No data loss
+
+### User
+
+* Ops completes payout in one session
+* No training beyond walkthrough
+
+### Business
+
+* Income floor enforced
+* Trust demonstrated to institutions
+
+---
+
+## 15. Risks & Mitigation
+
+| Risk            | Mitigation        |
+| --------------- | ----------------- |
+| Ops confusion   | Explicit actions  |
+| Payment failure | Manual retry      |
+| Data corruption | Immutable ledger  |
+| Network issues  | Offline read-only |
+
+---
+
+## 16. Out-of-POC Roadmap (Context Only)
+
+* Worker self-service
+* Micro-insurance
+* Credit enablement
+* Cross-platform identity
+
+---
+
+## FINAL NOTE
+
+This PRD is:
+
+* Fully aligned with the **technical POC spec**
+* Constrained by **real ops behavior**
+* Safe for engineering execution
+* Credible for institutional pilots
+
+---
+
+If you want to continue, the **correct next artifacts** are:
+
+1. **Acceptance criteria per module**
+2. **State machine diagrams**
+3. **Engineering task breakdown**
+4. **QA test cases**
+5. **Demo script for investors/govt**
+
+Tell me which one you want next.

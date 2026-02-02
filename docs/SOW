@@ -1,0 +1,313 @@
+Got it — you want a **proper Statement of Work (SOW)** that is **contract-ready**, **POC-scoped**, and aligned with the **BRD + PRD + Tech Specs** you already have.
+
+Below is a **clean, signable SOW** you can give to:
+
+* a dev agency
+* an internal engineering team
+* a govt / NGO pilot partner
+
+No fluff. No ambiguity.
+
+---
+
+# STATEMENT OF WORK (SOW)
+
+## Livelihood Security Platform — Desktop Admin Application (POC)
+
+---
+
+## 1. Parties
+
+**Client:**
+Livelihood Security Platform (or Client Organization)
+
+**Service Provider:**
+[Engineering Partner / Internal Product Team]
+
+**Engagement Type:**
+Fixed-scope Proof of Concept (POC)
+
+---
+
+## 2. Background & Context
+
+The Client is conducting a **Proof of Concept** to validate the operational feasibility of a **desktop-first administrative system** that enables institutions to:
+
+* Manage informal workers
+* Assign jobs
+* Enforce minimum income guarantees
+* Execute payments
+* Maintain auditable work histories
+
+This SOW defines the **scope, deliverables, timelines, and responsibilities** for building this POC.
+
+---
+
+## 3. Objectives
+
+### Primary Objective
+
+Deliver a **working desktop (Electron) POC** that enables ops teams to complete a **full livelihood cycle**:
+
+> Worker → Job → Income Guarantee → Payment → Ledger
+
+### Secondary Objectives
+
+* Demonstrate income stabilization logic
+* Prove payment reliability
+* Establish auditability
+* Support pilot evaluation by institutions
+
+---
+
+## 4. Scope of Work
+
+### 4.1 In-Scope Deliverables
+
+#### A. Desktop Application (Electron)
+
+* Cross-platform desktop app (Windows priority)
+* Fixed sidebar + sticky top bar layout
+* Keyboard-usable interface
+* High data-density tables
+
+#### B. Core Functional Modules
+
+1. Dashboard (read-only overview)
+2. Worker Registry
+3. Job Management
+4. Income Guarantee Rules
+5. Payments Execution
+6. Work History (Immutable Ledger)
+7. Reports (CSV export)
+8. Settings (basic configuration)
+
+#### C. Backend Services
+
+* REST APIs
+* Authentication (admin/ops roles)
+* Business rules engine (income guarantee)
+* Payment trigger service
+* Audit logging
+
+#### D. Data Storage
+
+* Backend persistence (cloud or local)
+* Local desktop cache (SQLite)
+* Immutable ledger model
+
+---
+
+### 4.2 Explicitly Out of Scope
+
+* Worker-facing mobile or web apps
+* Insurance automation
+* Credit scoring or lending
+* Advanced analytics / AI
+* Branding or visual design polish
+* Production-grade scalability
+
+---
+
+## 5. Functional Requirements Summary
+
+| Area             | Requirement                       |
+| ---------------- | --------------------------------- |
+| Workers          | Create, edit, activate/deactivate |
+| Jobs             | Create, assign, close             |
+| Income Guarantee | Calculate and apply top-ups       |
+| Payments         | Trigger, track, retry             |
+| Ledger           | Append-only, immutable            |
+| Reports          | Exportable summaries              |
+
+(Full detail governed by the approved PRD & Tech Specs)
+
+---
+
+## 6. Non-Functional Requirements
+
+| Category       | Requirement                   |
+| -------------- | ----------------------------- |
+| Performance    | <300ms UI response            |
+| Availability   | Offline read-only mode        |
+| Data Integrity | Strong consistency            |
+| Auditability   | Mandatory action logs         |
+| Usability      | Power-user, keyboard friendly |
+
+---
+
+## 7. Project Phases & Timeline
+
+### Phase 1 — Setup & Architecture (Week 1)
+
+* Repo setup
+* Electron skeleton
+* Backend scaffolding
+* Auth setup
+
+**Deliverable:** Architecture baseline
+
+---
+
+### Phase 2 — Core Modules Build (Weeks 2–3)
+
+* Workers
+* Jobs
+* Income Guarantee
+* Payments
+* Ledger
+
+**Deliverable:** End-to-end functional flow
+
+---
+
+### Phase 3 — Stabilization & POC Readiness (Week 4)
+
+* Bug fixes
+* Offline behavior
+* Reports
+* Demo data
+* Documentation
+
+**Deliverable:** POC-ready system
+
+---
+
+## 8. Deliverables
+
+### Mandatory Deliverables
+
+* Electron desktop application (build)
+* Backend services (deployed or runnable)
+* API documentation
+* Basic admin user guide
+* Demo dataset
+* Source code repository
+
+### Optional (If Agreed)
+
+* Deployment scripts
+* Demo recording
+* Pilot support
+
+---
+
+## 9. Acceptance Criteria
+
+The POC will be considered **accepted** when:
+
+1. Ops user can:
+
+   * Create workers
+   * Create jobs
+   * Assign workers
+   * Apply income guarantee
+   * Trigger payments
+   * View ledger
+2. Payments are:
+
+   * Deterministic
+   * Logged
+   * Non-editable
+3. Ledger entries are immutable
+4. Reports export correctly
+5. No critical data loss occurs
+
+---
+
+## 10. Roles & Responsibilities
+
+### Client Responsibilities
+
+* Provide business rules
+* Provide pilot parameters
+* Provide payment access (or sandbox)
+* Review and approve deliverables on time
+
+### Service Provider Responsibilities
+
+* Build per specs
+* Maintain scope discipline
+* Communicate risks early
+* Deliver documentation
+* Support demo readiness
+
+---
+
+## 11. Change Management
+
+* Any scope change requires:
+
+  * Written change request
+  * Impact assessment (time/cost)
+  * Mutual approval
+* No informal feature additions
+
+---
+
+## 12. Assumptions
+
+* Pilot funding for income guarantees exists
+* Payment sandbox or provider access available
+* Power users available for feedback
+* POC will not be used in production
+
+---
+
+## 13. Risks & Mitigation
+
+| Risk             | Mitigation            |
+| ---------------- | --------------------- |
+| Payment failures | Manual retry flow     |
+| Scope creep      | Strict change control |
+| Network issues   | Offline read-only     |
+| Ops confusion    | Explicit UX rules     |
+
+---
+
+## 14. Intellectual Property
+
+* All source code and artifacts produced under this SOW are the **property of the Client**, unless otherwise agreed in writing.
+
+---
+
+## 15. Confidentiality
+
+Both parties agree to maintain confidentiality of all non-public information shared during the engagement.
+
+---
+
+## 16. Term & Termination
+
+* Duration: 4 weeks (POC)
+* Either party may terminate with written notice
+* Work completed to date must be delivered
+
+---
+
+## 17. Sign-Off
+
+| Role             | Name | Signature | Date |
+| ---------------- | ---- | --------- | ---- |
+| Client           |      |           |      |
+| Service Provider |      |           |      |
+
+---
+
+## FINAL NOTE
+
+This SOW is:
+
+* **Contract-ready**
+* **Aligned with BRD + PRD + Tech Specs**
+* **Defensible with institutions**
+* **Safe against scope creep**
+
+If you want next, I can:
+
+* Create a **costing & effort estimate**
+* Convert this into a **govt / NGO pilot SOW**
+* Add a **payment milestone structure**
+* Produce a **vendor RFP version**
+
+Say the next move.

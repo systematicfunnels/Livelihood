@@ -1,0 +1,304 @@
+Below is a **targeted user list** for the **Desktop Admin App (POC)** — *not generic personas*, but **real, nameable roles** you can sell to, onboard, and design for.
+
+This list is **actionable**: each user exists for a reason, has authority boundaries, and maps to screens + APIs you already defined.
+
+---
+
+# TARGETED USER LIST
+
+## Livelihood Security Platform — Desktop Admin App
+
+---
+
+## TIER 1 — PRIMARY USERS (Daily Operators)
+
+These users **touch the system every day**.
+If they fail → the product fails.
+
+---
+
+### 1. Operations Manager (NGO / Program Ops)
+
+**Who they are**
+
+* Runs daily livelihood programs
+* Owns worker deployment + payouts
+* Accountable for execution
+
+**Key Responsibilities**
+
+* Worker activation/deactivation
+* Job creation & assignment
+* Payment triggering
+* Exception handling
+
+**Primary Screens**
+
+* Dashboard
+* Workers
+* Jobs
+* Payments
+
+**Authority Level**
+
+* Can create, edit, execute
+* Can trigger payments
+* Cannot alter ledger history
+
+**Success Looks Like**
+
+* Full cycle completed in one session
+* Zero ambiguity during payouts
+* No dependency on spreadsheets
+
+---
+
+### 2. Field Operations Lead (Cluster / Area Level)
+
+**Who they are**
+
+* Supervises ground agents
+* Manages worker pools per geography
+* First line of escalation
+
+**Key Responsibilities**
+
+* Worker onboarding support
+* Data corrections (non-financial)
+* Job readiness checks
+
+**Primary Screens**
+
+* Workers
+* Jobs
+* Worker Profile
+
+**Authority Level**
+
+* Can edit worker attributes
+* Cannot trigger payments
+* Cannot change guarantee rules
+
+**Success Looks Like**
+
+* Workers correctly mapped
+* Fewer ops errors upstream
+* Fast resolution of mismatches
+
+---
+
+## TIER 2 — CONTROL & GOVERNANCE USERS
+
+These users **do not operate daily**, but **must trust the system**.
+
+---
+
+### 3. Program Administrator (NGO / Govt Program Owner)
+
+**Who they are**
+
+* Designs the livelihood program
+* Controls rules and budgets
+* Reports to funders / leadership
+
+**Key Responsibilities**
+
+* Define income guarantee rules
+* Monitor top-up usage
+* Approve continuation or scale
+
+**Primary Screens**
+
+* Income Guarantee
+* Reports
+* Dashboard
+
+**Authority Level**
+
+* Can create/edit guarantee rules (forward-only)
+* Cannot trigger payments
+* Cannot edit worker/job records
+
+**Success Looks Like**
+
+* Clear visibility into costs
+* Confidence rules are enforced
+* Easy reporting to funders
+
+---
+
+### 4. Finance / Accounts Officer
+
+**Who they are**
+
+* Responsible for financial correctness
+* Interfaces with payment providers
+* Ensures reconciliation
+
+**Key Responsibilities**
+
+* Review payouts
+* Reconcile transactions
+* Flag discrepancies
+
+**Primary Screens**
+
+* Payments
+* Work History (Ledger)
+* Reports
+
+**Authority Level**
+
+* Read-only on ledger
+* Can retry failed payments
+* Cannot modify amounts
+
+**Success Looks Like**
+
+* Deterministic payouts
+* Clean reconciliation
+* No unexplained variances
+
+---
+
+## TIER 3 — OVERSIGHT & AUDIT USERS
+
+These users **rarely act**, but **must never be confused**.
+
+---
+
+### 5. Auditor / Compliance Reviewer
+
+**Who they are**
+
+* Internal or external auditor
+* Compliance reviewer (CSR, govt, donor)
+
+**Key Responsibilities**
+
+* Verify program integrity
+* Audit fund usage
+* Validate worker payments
+
+**Primary Screens**
+
+* Work History (Ledger)
+* Reports
+
+**Authority Level**
+
+* Strictly read-only
+* No data mutation possible
+
+**Success Looks Like**
+
+* Immutable, traceable records
+* Clear linkage: job → payment → ledger
+* Zero manual explanations needed
+
+---
+
+### 6. Leadership / Sponsor (Viewer)
+
+**Who they are**
+
+* NGO leadership
+* Govt sponsor
+* Enterprise CSR head
+
+**Key Responsibilities**
+
+* Decide continuation / expansion
+* Evaluate ROI and impact
+
+**Primary Screens**
+
+* Dashboard
+* Reports
+
+**Authority Level**
+
+* Read-only
+* No operational access
+
+**Success Looks Like**
+
+* Instantly understands system value
+* Sees cost vs stabilization clearly
+* Trusts ops without deep dives
+
+---
+
+## TIER 4 — SYSTEM ROLES (NON-HUMAN / INTERNAL)
+
+---
+
+### 7. System Administrator (Internal / Tech)
+
+**Who they are**
+
+* Maintains deployment
+* Handles configs
+* Supports ops team
+
+**Key Responsibilities**
+
+* User roles & access
+* Payment configuration
+* Environment stability
+
+**Primary Screens**
+
+* Settings
+
+**Authority Level**
+
+* Full config access
+* No financial mutation
+
+---
+
+## ROLE → MODULE ACCESS MATRIX (AUTHORITATIVE)
+
+| Role          | Workers | Jobs | Guarantee | Payments | Ledger | Reports | Settings |
+| ------------- | ------- | ---- | --------- | -------- | ------ | ------- | -------- |
+| Ops Manager   | ✅       | ✅    | ❌         | ✅        | 👁     | 👁      | ❌        |
+| Field Lead    | ✅       | ✅    | ❌         | ❌        | 👁     | ❌       | ❌        |
+| Program Admin | 👁      | 👁   | ✅         | ❌        | 👁     | ✅       | ❌        |
+| Finance       | 👁      | 👁   | ❌         | ⚠ Retry  | 👁     | ✅       | ❌        |
+| Auditor       | ❌       | ❌    | ❌         | ❌        | 👁     | 👁      | ❌        |
+| Leadership    | ❌       | ❌    | ❌         | ❌        | 👁     | 👁      | ❌        |
+| Sys Admin     | ❌       | ❌    | ❌         | ❌        | ❌      | ❌       | ✅        |
+
+Legend:
+✅ Full access | 👁 Read-only | ⚠ Limited | ❌ No access
+
+---
+
+## WHY THIS USER LIST MATTERS (IMPORTANT)
+
+* Prevents **overbuilding**
+* Prevents **permission leaks**
+* Makes **audit defensible**
+* Keeps UI dense but safe
+* Aligns with **institutional buying behavior**
+
+---
+
+## STOP POINT ⛔
+
+Confirm **YES / CHANGE** for:
+
+1. Role granularity
+2. Authority boundaries
+3. Payment permissions
+4. Auditor isolation
+
+Once approved, the next *correct* artifacts are:
+
+* **Role-based permission spec**
+* **State machine diagrams**
+* **Acceptance criteria per role**
+* **Security & audit spec**
+
+Waiting for your confirmation.

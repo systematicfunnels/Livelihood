@@ -1,0 +1,391 @@
+Good. This is the **right next layer**.
+
+Below are **SCREEN-LEVEL INFORMATION ARCHITECTURE (IA) TABLES** for the **Desktop Admin App**, written as **authoritative specs**, not mockups.
+
+Rules followed:
+
+* No visuals
+* No colors
+* No UI chrome speculation
+* Text, tables, rules only
+* One screen = one responsibility
+* Power-user, long-session reality
+
+---
+
+# SCREEN-LEVEL IA TABLES
+
+## Livelihood Security Platform — Desktop Admin App (POC)
+
+---
+
+## GLOBAL SCREEN RULES (APPLY TO ALL)
+
+| Rule              | Spec                          |
+| ----------------- | ----------------------------- |
+| Layout            | 12-column grid                |
+| Sidebar           | Fixed (240–280px)             |
+| Top bar           | Sticky                        |
+| Primary action    | Top-right only                |
+| Secondary actions | Inline / row-level            |
+| Save behavior     | Explicit only                 |
+| Errors            | Inline + summary              |
+| Keyboard          | All primary actions reachable |
+
+---
+
+# 1. DASHBOARD (READ-ONLY)
+
+### Purpose
+
+Provide **situational awareness**. No state mutation.
+
+---
+
+### Data Blocks
+
+| Block            | Content                                               | Behavior          |
+| ---------------- | ----------------------------------------------------- | ----------------- |
+| KPI Summary      | Active workers, jobs today, total paid, total top-ups | Read-only         |
+| Alerts           | Failed payments, pending reviews                      | Click → deep link |
+| Job Status Table | Job ID, skill, workers, status                        | Sortable          |
+| Time Context     | “Today / This week”                                   | Filter only       |
+
+---
+
+### Actions
+
+| Action       | Location  | Rule            |
+| ------------ | --------- | --------------- |
+| View details | Row click | Navigation only |
+| Refresh      | Top bar   | Manual          |
+
+🚫 No create/edit actions allowed
+
+---
+
+# 2. WORKERS — LIST VIEW
+
+### Purpose
+
+Manage **worker registry**.
+
+---
+
+### Table Columns
+
+| Column         | Type              | Notes              |
+| -------------- | ----------------- | ------------------ |
+| Name           | Text              | Primary identifier |
+| Phone          | Text              | Masked             |
+| Skill          | Enum              | Single (POC)       |
+| Location       | Text              | Free text          |
+| Status         | Active / Inactive | Toggle             |
+| Jobs Completed | Number            | Derived            |
+
+---
+
+### Actions
+
+| Action                | Scope  | Rule             |
+| --------------------- | ------ | ---------------- |
+| Add worker            | Global | Primary CTA      |
+| Edit worker           | Row    | Inline or drawer |
+| Activate / Deactivate | Row    | Confirm required |
+| View profile          | Row    | Read-only view   |
+
+🚫 No delete
+
+---
+
+# 3. WORKER PROFILE (DETAIL VIEW)
+
+### Purpose
+
+View **single worker truth**.
+
+---
+
+### Sections
+
+| Section         | Content                      | Editable |
+| --------------- | ---------------------------- | -------- |
+| Basic Info      | Name, phone, skill, location | Yes      |
+| Status          | Active / Inactive            | Yes      |
+| Summary         | Jobs, earnings               | No       |
+| Ledger Snapshot | Last N entries               | No       |
+
+---
+
+### Actions
+
+| Action     | Rule             |
+| ---------- | ---------------- |
+| Save       | Explicit         |
+| Cancel     | Revert           |
+| Assign Job | Shortcut to Jobs |
+
+---
+
+# 4. JOBS — LIST VIEW
+
+### Purpose
+
+Manage **work units**.
+
+---
+
+### Table Columns
+
+| Column         | Type                   |
+| -------------- | ---------------------- |
+| Job ID         | Text                   |
+| Skill Required | Enum                   |
+| Rate           | Currency               |
+| Min Guarantee  | Currency               |
+| Date           | Date                   |
+| Status         | Open / Active / Closed |
+
+---
+
+### Actions
+
+| Action         | Scope  | Rule           |
+| -------------- | ------ | -------------- |
+| Create Job     | Global | Primary CTA    |
+| Assign Workers | Row    | Modal / drawer |
+| Close Job      | Row    | Confirm + lock |
+
+---
+
+# 5. JOB CREATE / EDIT
+
+### Purpose
+
+Define **work parameters**.
+
+---
+
+### Fields
+
+| Field          | Type     | Required |
+| -------------- | -------- | -------- |
+| Skill Required | Enum     | Yes      |
+| Rate           | Currency | Yes      |
+| Min Guarantee  | Currency | Yes      |
+| Date           | Date     | Yes      |
+| Notes          | Text     | No       |
+
+---
+
+### Actions
+
+| Action | Rule     |
+| ------ | -------- |
+| Save   | Explicit |
+| Cancel | Revert   |
+
+🚫 No auto-save
+🚫 No background publish
+
+---
+
+# 6. JOB ASSIGNMENT
+
+### Purpose
+
+Attach workers to job.
+
+---
+
+### Sections
+
+| Section            | Content                     |
+| ------------------ | --------------------------- |
+| Eligible Workers   | Filtered list               |
+| Assigned Workers   | Confirmed list              |
+| Capacity Indicator | Workers assigned / required |
+
+---
+
+### Actions
+
+| Action   | Rule                   |
+| -------- | ---------------------- |
+| Assign   | Explicit               |
+| Unassign | Disabled if job active |
+| Confirm  | Required               |
+
+---
+
+# 7. INCOME GUARANTEE — RULES
+
+### Purpose
+
+Define **minimum income logic**.
+
+---
+
+### Table Columns
+
+| Column         | Type              |
+| -------------- | ----------------- |
+| Scope          | Global / Job      |
+| Frequency      | Daily / Weekly    |
+| Min Amount     | Currency          |
+| Funding Source | Text              |
+| Status         | Active / Inactive |
+
+---
+
+### Actions
+
+| Action      | Rule         |
+| ----------- | ------------ |
+| Create Rule | Primary CTA  |
+| Edit Rule   | Forward-only |
+| Deactivate  | Allowed      |
+
+🚫 No retroactive edits
+
+---
+
+# 8. PAYMENTS — REVIEW & EXECUTION
+
+### Purpose
+
+Execute **financial actions**.
+
+---
+
+### Table Columns
+
+| Column | Type                    |
+| ------ | ----------------------- |
+| Worker | Text                    |
+| Earned | Currency                |
+| Top-Up | Currency                |
+| Total  | Currency                |
+| Status | Pending / Paid / Failed |
+
+---
+
+### Actions
+
+| Action           | Rule       |
+| ---------------- | ---------- |
+| Trigger Payout   | Batch only |
+| Retry Failed     | Manual     |
+| View Transaction | Read-only  |
+
+🚫 No edits post-trigger
+
+---
+
+# 9. WORK HISTORY — LEDGER
+
+### Purpose
+
+Provide **immutable audit trail**.
+
+---
+
+### Table Columns
+
+| Column    | Type            |
+| --------- | --------------- |
+| Date      | Datetime        |
+| Worker    | Text            |
+| Job ID    | Text            |
+| Amount    | Currency        |
+| Source    | Earned / Top-up |
+| Reference | Text            |
+
+---
+
+### Actions
+
+| Action | Rule    |
+| ------ | ------- |
+| Filter | Allowed |
+| Export | Allowed |
+
+🚫 No mutations
+🚫 No annotations
+
+---
+
+# 10. REPORTS
+
+### Purpose
+
+Operational & compliance exports.
+
+---
+
+### Report Types
+
+| Report          | Content                |
+| --------------- | ---------------------- |
+| Daily Summary   | Workers, paid, top-ups |
+| Worker Earnings | Per worker             |
+| Job Costing     | Per job                |
+| Guarantee Usage | Aggregated             |
+
+---
+
+### Actions
+
+| Action   | Rule     |
+| -------- | -------- |
+| Generate | Explicit |
+| Export   | CSV only |
+
+---
+
+# 11. SETTINGS
+
+### Purpose
+
+System configuration.
+
+---
+
+### Sections
+
+| Section        | Content                |
+| -------------- | ---------------------- |
+| Org Details    | Read-only              |
+| User Roles     | Admin / Ops / Viewer   |
+| Payment Config | Provider refs          |
+| System Flags   | Enable/disable modules |
+
+---
+
+### Actions
+
+| Action | Rule     |
+| ------ | -------- |
+| Save   | Explicit |
+| Reset  | Confirm  |
+
+---
+
+## FINAL CHECKPOINT ⛔
+
+Confirm **YES / CHANGE** for:
+
+1. Screen responsibility boundaries
+2. No-delete / immutable rules
+3. Action placement logic
+4. Payment screen separation
+5. Guarantee rules isolation
+
+Once approved, next valid layers are:
+
+* **State machine diagrams**
+* **Keyboard shortcut map**
+* **Acceptance criteria per screen**
+* **QA test cases**
+
+Waiting for your signal.
