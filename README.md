@@ -1,73 +1,101 @@
-# React + TypeScript + Vite
+<div align="center">
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# 🌱 Livelihood
 
-Currently, two official plugins are available:
+> **AI-Powered Income Opportunity Generator**
+>
+> Discover practical ways to earn money based on your skills, interests, and time using AI.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+[![GitHub Repo](https://img.shields.io/badge/GitHub-Livelihood-181717?style=for-the-badge&logo=github)](https://github.com/systematicfunnels/Livelihood)
+[![Node.js](https://img.shields.io/badge/Node.js-18+-339933?style=for-the-badge&logo=node.js)](https://nodejs.org/)
+[![Express](https://img.shields.io/badge/Express-4.x-000000?style=for-the-badge&logo=express)](https://expressjs.com/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](LICENSE)
 
-## React Compiler
+</div>
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 📋 Table of Contents
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- [About](#about)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Getting Started](#getting-started)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Running Locally](#running-locally)
+- [Project Structure](#project-structure)
+- [API Reference](#api-reference)
+- [Future Roadmap](#future-roadmap)
+- [Contributing](#contributing)
+- [License](#license)
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## 🎯 About
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+**Livelihood** is an AI-powered application that helps users discover **income opportunities and side hustles** tailored to their personal profile.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Instead of generic advice, Livelihood generates:
+- 💡 Personalized earning ideas  
+- 📊 Effort vs reward insights  
+- 🚀 Step-by-step execution plans  
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Perfect for:
+- Students  
+- Freelancers  
+- Job seekers  
+- Anyone exploring new income streams  
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
+
+## ✨ Features
+
+### 🤖 AI-Powered Suggestions
+- Generate income ideas based on user input  
+- Skill-based opportunity matching  
+- Personalized recommendations  
+
+### 📊 Opportunity Insights
+- Income potential  
+- Required skills  
+- Time commitment  
+- Growth potential  
+
+### ⚡ Simple & Fast
+- Clean UI  
+- Quick API responses  
+- Lightweight architecture  
+
+---
+
+## 🛠 Tech Stack
+
+### Backend
+- Node.js  
+- Express.js  
+
+### Frontend (planned / optional)
+- React / Next.js  
+- Tailwind CSS  
+
+### AI Integration
+- OpenAI / Gemini / Groq  
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js (v18+)
+- npm
+
+---
+
+## 📥 Installation
+
+```bash
+git clone https://github.com/systematicfunnels/Livelihood.git
+cd Livelihood
+npm install
